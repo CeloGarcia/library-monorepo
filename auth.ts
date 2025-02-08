@@ -16,6 +16,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
+        credentials.email = credentials.email.toLowerCase();
+
         const user = await db
           .select()
           .from(users)
@@ -26,7 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isPasswordValid = await compare(
           credentials.password.toString(),
-          user[0].password,
+          user[0].password
         );
 
         if (!isPasswordValid) return null;
